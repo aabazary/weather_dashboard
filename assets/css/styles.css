@@ -1,0 +1,8 @@
+.banner{
+    color: white;
+    background-image: linear-gradient(to right, rgb(0, 132, 255), darkblue);
+    text-align: center;
+    font-size: 32px;
+    padding: 10px 0 10px 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
