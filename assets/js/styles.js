@@ -1,39 +1,35 @@
 var key = "c5977d806189278697c81338ef7cc9fd";
 var searchBtn = document.getElementById('btn');
-var cityName= document.getElementById('city-name');
-var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q="+ cityName + "&units=imperial&appid=" + key ;
+var cityName = document.getElementById('city-name');
+var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + key;
 
-var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + 
-cityName + "&units=imperial&appid=" + key ;
-
-
-
-console.log(weatherUrl)
-console.log(forecastUrl)
-
+var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
+    cityName + "&units=imperial&appid=" + key;
 
 function getWeather() {
-    var cityName = document.getElementById('city-name').value;
+    var cityName = document.getElementById('city-name').value.trim()
+    .replace(' ', '+');
     var key = 'c5977d806189278697c81338ef7cc9fd';
-  
+
     if (!cityName) {
-      alert('You need a search input value!');
-      return;
-    }
-    var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q="+ cityName + "&units=imperial&appid=" + key ;
-  
+        alert('You need a search input value!');
+        return;
+    } 
+    var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + key;
+
     var forecastUrl =
-      'https://api.openweathermap.org/data/2.5/forecast?q=' +
-      cityName +
-      '&units=imperial&appid=' +
-      key;
+        'https://api.openweathermap.org/data/2.5/forecast?q=' +
+        cityName +
+        '&units=imperial&appid=' +
+        key;
     console.log(weatherUrl);
     console.log(forecastUrl)
 
-  }
-  
-  searchBtn.addEventListener('click', getWeather);
-  
+    
+}
+
+searchBtn.addEventListener('click', getWeather);
+
 
 
 
