@@ -23,10 +23,17 @@ function getWeather() {
         '&units=imperial&appid=' +
         key;
     console.log(weatherUrl);
-    console.log(forecastUrl)
+    console.log(forecastUrl);
 
-    
+    fetch(weatherUrl)
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+    fetch(forecastUrl)
+    .then(res => res.json())
+    .then(data => console.log(data))
 }
+
 
 searchBtn.addEventListener('click', getWeather);
 
