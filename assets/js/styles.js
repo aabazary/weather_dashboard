@@ -10,6 +10,7 @@ var humidity = document.getElementById('humidity');
 var windSpeed = document.getElementById('windSpeed')
 var uvIndex = document.getElementById('uvIndex')
 var weatherImg = document.getElementById('weatherImg')
+var uvIndexText = document.getElementById('uvIndexText')
 
 var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
     cityInput + "&units=imperial&appid=" + key;
@@ -46,15 +47,16 @@ function getWeather() {
             fetch(uvUrl)
             .then(res => res.json())
             .then(data => {
-                uvIndex.innerText = "UV Index: " + data[0].value;
+                uvIndex.innerText = "UV Index: ";
+                uvIndexText.innerText = data[0].value;
                 if (data[0].value < 4 ) {
-                    uvIndex.setAttribute("class", "safe")
+                    uvIndexText.setAttribute("class", "safe")
                 }
                 else if (data[0].value <= 8 ) {
-                    uvIndex.setAttribute("class", "warning")
+                    uvIndexText.setAttribute("class", "warning")
                 }
                 else if (data[0].value > 8 ) {
-                    uvIndex.setAttribute("class", "danger")
+                    uvIndexText.setAttribute("class", "danger")
                 }
             })
     })
