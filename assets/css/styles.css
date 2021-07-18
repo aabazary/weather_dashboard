@@ -6,3 +6,15 @@
     padding: 10px 0 10px 0;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+.safe{
+    background-color: green;
+    width: fit-content;
+}
+.warning{
+    background-color: yellow;
+    width: fit-content;
+}
+.danger{
+    background-color: red;
+    width: fit-content;
+}

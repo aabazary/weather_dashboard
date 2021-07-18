@@ -42,15 +42,24 @@ function getWeather() {
             var lat = data.coord.lat;
             var lon = data.coord.lon;
             var uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key + "&cnt=1";
-        
+            console.log(uvUrl);
             fetch(uvUrl)
-                .then(res => res.json())
-                .then(res => {
-                console.log(uvUrl)
-                console.log(res.value)
+            .then(res => res.json())
+            .then(data => {
+                uvIndex.innerText = "UV Index: " + data[0].value;
+                if (data[0].value < 4 ) {
+                    uvIndex.setAttribute("class", "safe")
+                }
+                else if (data[0].value <= 8 ) {
+                    uvIndex.setAttribute("class", "warning")
+                }
+                else if (data[0].value > 8 ) {
+                    uvIndex.setAttribute("class", "danger")
+                }
+            })
     })
 
-        })
+        
     
 
     fetch(forecastUrl)
