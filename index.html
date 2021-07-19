@@ -15,28 +15,33 @@
 
 <body>
   <div class="banner">Weather Dashboard</div>
-  <div class="container col-12">
-    <div class="searchCard col-4 ">
-      <h5 class="card-title ">Search for a City:</h5>
-      <input type="text" class="card-text form-control" id="cityInput"></input>
-      <button class="btn btn-primary search-btn" id="btn">Search</button>
+  <div class="col-12 container">
+    <div class=" col-4 searchCard">
+        <h5 class="card-title ">Search for a City:</h5>
+        <input type="text" class="card-text form-control" id="cityInput"></input>
+        <button class="btn btn-primary search-btn" id="btn">Search</button>
     </div>
-    <div class="weatherCard">
-      <div id="cityName"></div>
-      <div id="date"></div>
-      <img src="" id='weatherImg'>
-      <div id="temperature"></div>
-      <div id="humidity"></div>
-      <div id="windSpeed"></div>
-      <div id="uvIndex"></div>
-    </div>
-    <div class="forecastCards">
-    <div class="row">
-      <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-      <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-      <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-      <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-      <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+    <div class="col-8 row">
+     
+        <div class="weatherCard">
+          <div id="cityName"></div>
+          <div id="date"></div>
+          <img src="" id='weatherImg'>
+          <div id="temperature"></div>
+          <div id="humidity"></div>
+          <div id="windSpeed"></div>
+          <div id="uvIndex"></div>
+        </div>
+        <div class=" col-8 forecastCards">
+          <div class="row">
+            <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+            <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+            <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+            <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+            <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </body>
