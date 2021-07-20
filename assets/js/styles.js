@@ -1,3 +1,4 @@
+//list of variables
 var key = "c5977d806189278697c81338ef7cc9fd";
 var searchBtn = document.getElementById('btn');
 var cityInput = document.getElementById('cityInput');
@@ -16,7 +17,9 @@ var currentDate = moment().format("MMM Do, YYYY");
 var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
     cityInput + "&units=imperial&appid=" + key;
 
-function getWeather() {
+//function to create weather card
+    function getWeather(event) {
+    event.preventDefault();
     var cityInput = document.getElementById('cityInput').value.trim()
         .replace(' ', '+');
     var key = 'c5977d806189278697c81338ef7cc9fd';
@@ -35,7 +38,22 @@ function getWeather() {
     fetch(weatherUrl)
         .then(res => res.json())
         .then(data => {
-            var weatherCard = document.querySelector('.weatherCard')
+            var lat = data.coord.lat;
+            var lon = data.coord.lon;
+            var uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key + "&cnt=1";
+            var weatherCard = document.querySelector('.weatherCard');
+            var ul = document.getElementById('searchUl');
+            var li = document.createElement('li');
+            
+
+            localStorage.setItem('cityName', data.name);
+            var city = localStorage.getItem('cityName');
+
+            if (city){
+                li.appendChild(document.createTextNode(city));
+                ul.appendChild(li);
+            }
+            
             cityHeader.innerText = data.name + "(" + currentDate + ")";
             weatherImg.setAttribute("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
             console.log(data.weather[0].icon)
@@ -43,10 +61,7 @@ function getWeather() {
             temperature.innerText = "Temperature: " + data.main.temp + "°F";
             humidity.innerText = "Humidity: " + data.main.humidity + "%";
             windSpeed.innerText = "Wind Speed " + data.wind.speed + "MPH";
-            var lat = data.coord.lat;
-            var lon = data.coord.lon;
-            var uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key + "&cnt=1";
-
+            
             fetch(uvUrl)
             .then(res => res.json())
             .then(data => {
@@ -66,6 +81,7 @@ function getWeather() {
             })
     })      
 }
+//function to get 5 day forecast
 function getForecast() {
     var cityInput = document.getElementById('cityInput').value.trim()
     .replace(' ', '+');

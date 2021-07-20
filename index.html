@@ -17,14 +17,14 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class=" col-4 searchCard">
+      <div class=" col-3 searchCard">
         <h5 class="card-title ">Search for a City:</h5>
         <input type="text" class="card-text form-control" id="cityInput"></input>
         <button class="btn btn-primary search-btn" id="btn">Search</button>
-        <ul>Search History</ul>
+        <ul id="searchUl">Search History</ul>
       </div>
-      <div class="container-fluid">
-        <div class="col-8">
+      <div class="col-9">
+        <div class="col-9">
           <div class="weatherCard float-right">
             <div id="cityName"></div>
             <div id="date"></div>
@@ -35,7 +35,7 @@
             <div id="uvIndex"></div>
           </div>
         </div>
-        <div class=" col-8 forecastCards">
+        <div class=" col-9 forecastCards">
           <div class="row">
             <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
             <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
