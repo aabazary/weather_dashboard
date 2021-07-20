@@ -12,13 +12,23 @@ var windSpeed = document.getElementById('windSpeed');
 var uvIndex = document.getElementById('uvIndex');
 var weatherImg = document.getElementById('weatherImg');
 var currentDate = moment().format("MMM Do, YYYY");
-
-
+var searchHistory= [];
 var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
     cityInput + "&units=imperial&appid=" + key;
 
+
+var saveCity = function (city) {
+
+    for (var i = 0; i < searchHistory.length; i++) {
+        if (city === searchHistory[i]) {
+            searchHistory.splice(i, 1);
+        }
+    }
+    searchHistory.push(city);
+    localStorage.setItem('cityName', JSON.stringify(searchHistory));
+}
 //function to create weather card
-    function getWeather(event) {
+function getWeather(event) {
     event.preventDefault();
     var cityInput = document.getElementById('cityInput').value.trim()
         .replace(' ', '+');
@@ -42,56 +52,46 @@ var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
             var lon = data.coord.lon;
             var uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key + "&cnt=1";
             var weatherCard = document.querySelector('.weatherCard');
-            var ul = document.getElementById('searchUl');
-            var li = document.createElement('li');
-            
 
-            localStorage.setItem('cityName', data.name);
-            var city = localStorage.getItem('cityName');
+            var city = data.name;
 
-            if (city){
-                li.appendChild(document.createTextNode(city));
-                ul.appendChild(li);
-            }
-            
-            cityHeader.innerText = data.name + "(" + currentDate + ")";
+            saveCity(city);
+            cityHeader.innerText = city + "(" + currentDate + ")";
             weatherImg.setAttribute("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
             console.log(data.weather[0].icon)
-            weatherCard.setAttribute('class', "weatherCard bg-primary text-white ml-3 mb-3 rounded" )
+            weatherCard.setAttribute('class', "weatherCard bg-primary text-white ml-3 mb-3 rounded")
             temperature.innerText = "Temperature: " + data.main.temp + "°F";
             humidity.innerText = "Humidity: " + data.main.humidity + "%";
             windSpeed.innerText = "Wind Speed " + data.wind.speed + "MPH";
-            
+
             fetch(uvUrl)
-            .then(res => res.json())
-            .then(data => {
-                uvIndex.innerText = "UV Index: ";
-                var newSpan = document.createElement('span')
-                newSpan.innerText = data[0].value;
-                uvIndex.append(newSpan)
-                if (data[0].value < 4 ) {
-                    newSpan.setAttribute("class", "safe")
-                }
-                else if (data[0].value <= 8 ) {
-                    newSpan.setAttribute("class", "warning")
-                }
-                else if (data[0].value > 8 ) {
-                    newSpan.setAttribute("class", "danger")
-                }
-            })
-    })      
+                .then(res => res.json())
+                .then(data => {
+                    uvIndex.innerText = "UV Index: ";
+                    var newSpan = document.createElement('span')
+                    newSpan.innerText = data[0].value;
+                    uvIndex.append(newSpan)
+                    if (data[0].value < 4) {
+                        newSpan.setAttribute("class", "safe")
+                    } else if (data[0].value <= 8) {
+                        newSpan.setAttribute("class", "warning")
+                    } else if (data[0].value > 8) {
+                        newSpan.setAttribute("class", "danger")
+                    }
+                })
+        })
 }
 //function to get 5 day forecast
 function getForecast() {
     var cityInput = document.getElementById('cityInput').value.trim()
-    .replace(' ', '+');
+        .replace(' ', '+');
     var key = 'c5977d806189278697c81338ef7cc9fd';
 
     if (!cityInput) {
         alert('You need a search input value!');
         return;
     }
-    
+
     var forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=imperial&appid=' + key;
     console.log(forecastUrl);
 
@@ -113,25 +113,43 @@ function getForecast() {
                 var forecastWeather = document.createElement("img");
                 forecastWeather.setAttribute("src", "https://openweathermap.org/img/wn/" + data.list[forecastIndex].weather[0].icon + "@2x.png");
                 forecastCards[i].append(forecastWeather);
-                
+
                 var forecastTemp = document.createElement("p");
                 forecastTemp.innerHTML = "Temp: " + data.list[forecastIndex].main.temp + "°F";
                 forecastCards[i].append(forecastTemp);
-                
+
                 var forecastHumidity = document.createElement("p");
                 forecastHumidity.innerHTML = "Humidity: " + data.list[forecastIndex].main.humidity + "%";
                 forecastCards[i].append(forecastHumidity);
-                
+
                 var forecastWindSpeed = document.createElement("p");
                 forecastWindSpeed.innerHTML = "Wind: " + data.list[forecastIndex].wind.speed + "MPH";
                 forecastCards[i].append(forecastWindSpeed);
             }
+
+        })
+};
+
+function historyCity() {
+    searchHistory = JSON.parse(localStorage.getItem('cityName'));
+
+    if (!searchHistory) {
+        searchHistory = [];
+        ;
+    }
+
+    for (var i = 0; i < searchHistory.length; i++) {
+        var li = document.createElement('li');
+        var ul = document.getElementById('searchUl')
         
-        })};
+        li.setAttribute('value', searchHistory[i]);
+        li.textContent = searchHistory[i];
+        ul.appendChild(li);
+    }
 
-
-
-
+    var searchHistory = document.getElementById('searchUl');
+    li.addEventListener('click', getWeather)
+}
+historyCity();
 searchBtn.addEventListener('click', getWeather);
-searchBtn.addEventListener('click', getForecast)
-
+searchBtn.addEventListener('click', getForecast);
