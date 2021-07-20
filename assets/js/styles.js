@@ -113,6 +113,9 @@ function getForecast() {
         
         })};
 
+
+
+
 searchBtn.addEventListener('click', getWeather);
 searchBtn.addEventListener('click', getForecast)
 

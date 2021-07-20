@@ -9,6 +9,11 @@
 body{
     width: 100vw;
 }
+#btn{
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
 .safe{
     background-color: green;
     width: fit-content;
