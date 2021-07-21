@@ -1,3 +1,7 @@
+*{
+
+}
+
 .banner{
     color: white;
     background-image: linear-gradient(to right, rgb(0, 132, 255), darkblue);
@@ -12,26 +16,37 @@ body{
 #btn{
     width: 100%;
     text-align: center;
-    margin-top: 10px;
+    margin: 10px 0 10px 0;
 }
 .safe{
     background-color: green;
     width: fit-content;
+    color: black;
+
 }
 .warning{
     background-color: yellow;
     width: fit-content;
+    color: black;
+    border-radius: 2px;
+    padding: 0 5px 0 5px;
 }
 .danger{
     background-color: red;
     width: fit-content;
+    color: black;
+    border-radius: 2px;
+    padding: 0 5px 0 5px;
+}
+.card-title{
+    font-size: 28px;
 }
 ul{
     list-style-type: none;
     width: 100%;
-    padding: 0px;
-    
-    
+    padding: 0px;  
+    border-radius: 2px;
+    padding: 0 5px 0 5px;
 }
 
 li{
@@ -41,4 +56,13 @@ li{
     width: 100%;
     text-align: center;
     margin-bottom: 10px;
+}
+li:hover{
+    cursor: pointer;
+    background-color:rgb(160, 159, 159) ;
+
+}
+.weatherCard{
+    margin-top: 10px;
+    padding: 10px;
 }
