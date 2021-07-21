@@ -12,7 +12,6 @@ var windSpeed = document.getElementById('windSpeed');
 var uvIndex = document.getElementById('uvIndex');
 var weatherImg = document.getElementById('weatherImg');
 var currentDate = moment().format("MMM Do, YYYY");
-
 var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
     cityInput + "&units=imperial&appid=" + key;
 
@@ -87,14 +86,11 @@ function getWeather(city) {
 //function to get 5 day forecast
 function getForecast(city) {
     city = city.trim().replace(' ', '+');
-    
     var key = 'c5977d806189278697c81338ef7cc9fd';
-
-
     var forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + key;
     console.log(forecastUrl);
 
-//pulling from the API and creating the forecast cards
+//pulling from the API and creating the forecast cards appending the associated attributes into the html
     fetch(forecastUrl)
         .then(res => res.json())
         .then(data => {
@@ -103,7 +99,6 @@ function getForecast(city) {
                 forecastCards[i].innerHTML = "";
                 var forecastIndex = i * 8 + 4;
                 var forecastDate = document.createElement("p");
-
                 var forecastDateFormat = moment(data.list[forecastIndex].dt_txt).format("MMM Do, YYYY")
                 forecastDate.innerHTML = "Date: " + forecastDateFormat;
                 forecastCards[i].append(forecastDate);
@@ -144,8 +139,6 @@ function historyCity() {
         var li = document.createElement('li');
 
         li.addEventListener('click', function() {
-            console.log("click listener",searchHistory[i])
-            console.log("click listener",this.textContent)
             getWeather(this.textContent)
         })
         li.setAttribute('value', searchHistory[i]);
@@ -157,10 +150,10 @@ function historyCity() {
     console.log('outside for loop')
 }
 historyCity();
-
-function testFunc(){
+//function to correct city structure after taking cityinput
+function getCity(){
     var cityInput = document.getElementById('cityInput').value.trim()
     .replace(' ', '+');
     getWeather(cityInput)
 }
-searchBtn.addEventListener('click', testFunc);
+searchBtn.addEventListener('click', getCity);
