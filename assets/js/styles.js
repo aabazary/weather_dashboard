@@ -12,39 +12,44 @@ var windSpeed = document.getElementById('windSpeed');
 var uvIndex = document.getElementById('uvIndex');
 var weatherImg = document.getElementById('weatherImg');
 var currentDate = moment().format("MMM Do, YYYY");
-var searchHistory= [];
+
 var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
     cityInput + "&units=imperial&appid=" + key;
 
-
+//saving city to local storage
 var saveCity = function (city) {
 
     for (var i = 0; i < searchHistory.length; i++) {
         if (city === searchHistory[i]) {
             searchHistory.splice(i, 1);
+            console.log("inside for loop")
         }
     }
     searchHistory.push(city);
     localStorage.setItem('cityName', JSON.stringify(searchHistory));
+    console.log(searchHistory)
+    historyCity();
 }
 //function to create weather card
-function getWeather(event) {
-    event.preventDefault();
-    var cityInput = document.getElementById('cityInput').value.trim()
-        .replace(' ', '+');
+function getWeather(city) {
+    console.log("city", city)
+    city = city.trim().replace(' ', '+');
     var key = 'c5977d806189278697c81338ef7cc9fd';
 
-    if (!cityInput) {
-        alert('You need a search input value!');
+    if (!city) {
+        alert('You need a search input valuadsfasdfasfasdfe!');
+        
         return;
     }
-    var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&units=imperial&appid=" + key;
+    var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + key;
 
-    var forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=imperial&appid=' + key;
+    var forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + key;
 
     console.log(forecastUrl);
-
-
+    
+    getForecast(city);
+    
+//api looking up weather url and creating the weather url card from the json
     fetch(weatherUrl)
         .then(res => res.json())
         .then(data => {
@@ -52,9 +57,7 @@ function getWeather(event) {
             var lon = data.coord.lon;
             var uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key + "&cnt=1";
             var weatherCard = document.querySelector('.weatherCard');
-
             var city = data.name;
-
             saveCity(city);
             cityHeader.innerText = city + "(" + currentDate + ")";
             weatherImg.setAttribute("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
@@ -63,7 +66,7 @@ function getWeather(event) {
             temperature.innerText = "Temperature: " + data.main.temp + "°F";
             humidity.innerText = "Humidity: " + data.main.humidity + "%";
             windSpeed.innerText = "Wind Speed " + data.wind.speed + "MPH";
-
+//creating a uv append and adding a background color and fit content with css
             fetch(uvUrl)
                 .then(res => res.json())
                 .then(data => {
@@ -82,20 +85,16 @@ function getWeather(event) {
         })
 }
 //function to get 5 day forecast
-function getForecast() {
-    var cityInput = document.getElementById('cityInput').value.trim()
-        .replace(' ', '+');
+function getForecast(city) {
+    city = city.trim().replace(' ', '+');
+    
     var key = 'c5977d806189278697c81338ef7cc9fd';
 
-    if (!cityInput) {
-        alert('You need a search input value!');
-        return;
-    }
 
-    var forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=imperial&appid=' + key;
+    var forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + key;
     console.log(forecastUrl);
 
-
+//pulling from the API and creating the forecast cards
     fetch(forecastUrl)
         .then(res => res.json())
         .then(data => {
@@ -130,26 +129,38 @@ function getForecast() {
         })
 };
 
+//function to render the search history
 function historyCity() {
     searchHistory = JSON.parse(localStorage.getItem('cityName'));
 
     if (!searchHistory) {
         searchHistory = [];
-        ;
+        return
     }
-
+  console.log("searhc hadf ", searchHistory)
+    var ul = document.getElementById('searchUl')
+    ul.innerHTML = "";
     for (var i = 0; i < searchHistory.length; i++) {
         var li = document.createElement('li');
-        var ul = document.getElementById('searchUl')
-        
+
+        li.addEventListener('click', function() {
+            console.log("click listener",searchHistory[i])
+            console.log("click listener",this.textContent)
+            getWeather(this.textContent)
+        })
         li.setAttribute('value', searchHistory[i]);
         li.textContent = searchHistory[i];
         ul.appendChild(li);
-    }
-
-    var searchHistory = document.getElementById('searchUl');
-    li.addEventListener('click', getWeather)
+        console.log('inside for loop')
+        
+    }   
+    console.log('outside for loop')
 }
 historyCity();
-searchBtn.addEventListener('click', getWeather);
-searchBtn.addEventListener('click', getForecast);
+
+function testFunc(){
+    var cityInput = document.getElementById('cityInput').value.trim()
+    .replace(' ', '+');
+    getWeather(cityInput)
+}
+searchBtn.addEventListener('click', testFunc);
