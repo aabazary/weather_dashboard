@@ -4,4 +4,4 @@ This is a weather tool that allows you to search for a city, It gives you the cu
 
 https://aabazary.github.io/weather_dashboard/
 
-![](assets/images/screenshot.png)
+![](assets/images/screenshot.jpg)
